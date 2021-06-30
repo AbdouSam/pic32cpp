@@ -12,15 +12,13 @@
 
 #include "pic32_config.h"
 
-/*
-#include "debug.h"
 #include "uart.h"
-*/
 #include "interrupt.h"
 #include "timer.h"
 #include "sysclk.h"
 #include "gpio.h"
 #include "delay.h"
+#include "debug.h"
 #include "app.h"
 
 /* This define is to set the  µC to run on internal clock
@@ -105,11 +103,9 @@
 #pragma config TSEQ =       0x0000
 #pragma config CSEQ =       0xffff
 
-#if 0
 static char          c_tmp;
 static char          rx_tmp[10];
 static int           rx_index = 0;
-#endif
 
 static unsigned int  millis = 0;
 static bool          wdt_clear_flag = true;
@@ -134,7 +130,6 @@ void timer_2_callback(void)
   wdt_clear_flag = true;
 }
 
-#if 0
 static char read_char(void)
 {
   if (uart_rx_any(PIC32_UART_4)) /* Data ready */
@@ -159,8 +154,6 @@ void uart_callback(void)
   }
 }
 
-#endif
-
 int app_init(void)
 {
   sysclk_init();
@@ -172,19 +165,19 @@ int app_init(void)
   gpio_state_clear(LED_RED);
   gpio_state_clear(LED_GREEN);
 
-  //uart_rxi_set(PIC32_UART_4, 3, IF_RBUF_NOT_EMPTY, uart_callback);
+  uart_rxi_set(PIC32_UART_4, 3, IF_RBUF_NOT_EMPTY, uart_callback);
   
-  //debug_init();
+  debug_init();
 
   delay_ms(100);
 
-  //debug_print("Hello World\n");
+  debug_print("Hello World\n");
 
   timer_1_init();
 
   if (timer_init(PIC32_TIMER_2, 2 /* Hz */, 0) < 0)
   {
-    //debug_print("Timer 2 failed to init\n");
+    debug_print("Timer 2 failed to init\n");
   } 
 
   interrupt_init();
@@ -202,7 +195,6 @@ void app_task(void)
 
     }
 
-  #if 0
   int c_local;
 
   if ((c_tmp >= 'a') && (c_tmp <= 'z'))
@@ -223,7 +215,6 @@ void app_task(void)
       c_tmp = 0;
     }
 
-#endif
   if (wdt_clear_flag)
   {
     wdt_clear_flag = false;

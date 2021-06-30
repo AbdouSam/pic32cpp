@@ -17,9 +17,9 @@ CSRCS = app.c \
         sysclk.c \
         delay.c \
         timer.c \
+	uart.c \
         interrupt.c \
-	#uart.c \
-        #debug.c \
+        debug.c \
 
 CPPSRCS = main.cpp 
 

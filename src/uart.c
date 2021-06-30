@@ -346,6 +346,10 @@ static inline int set_uart_pinmap(pic32_uart_t uart_id)
 
 /* Interrupts callbacks */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if (PIC32_UART_1_ENABLED == 1)
 void uartrx_1_callback(void)
 {
@@ -391,5 +395,9 @@ void uartrx_6_callback(void)
 {
   if (uart_rxi_cb[PIC32_UART_6] != NULL)
     uart_rxi_cb[PIC32_UART_6]();
+}
+#endif
+
+#ifdef __cplusplus
 }
 #endif

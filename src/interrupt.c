@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <xc.h>
 #include "pic32_config.h"
+#include "interrupt.h"
 
 #define IFSbits_TIF(x, y)   IFS ## y ## bits.T ## x ## IF
 #define IFSbits_URXIF(x, y) IFS ## y ## bits.U ## x ## RXIF
@@ -181,7 +182,10 @@ void __attribute__((vector(_UART3_RX_VECTOR), interrupt(ipluart3AUTO),
 #endif
 
 #if (PIC32_UART_4_ENABLED == 1)
-extern void uartrx_4_callback(void);
+extern "C" {
+  extern void uartrx_4_callback(void);
+}
+
 void __attribute__((vector(_UART4_RX_VECTOR), interrupt(ipluart4AUTO),
                          nomips16)) _uartrx4_interrupt(void)
 {

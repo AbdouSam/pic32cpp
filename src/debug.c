@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "pic32_config.h"
 
 #include "gpio.h"
 #include "uart.h"
+#include "debug.h"
 
 #define STR_SIZE 256
 
