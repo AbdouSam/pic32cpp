@@ -1,0 +1,34 @@
+---
+:source:
+  :path: test
+  :file: test_gpio.c
+:successes:
+- :test: test_gpio_is_input_or_ouput_after_init
+  :line: 28
+  :message: ''
+  :unity_test_time: 0
+- :test: test_gpio_set_b12_opposite_direction_then_read_it
+  :line: 47
+  :message: ''
+  :unity_test_time: 0
+- :test: test_gpio_get_state_of_output_at_init_is_clear
+  :line: 59
+  :message: ''
+  :unity_test_time: 0
+- :test: test_gpio_set_state_of_output_then_get_state
+  :line: 70
+  :message: ''
+  :unity_test_time: 0
+- :test: test_gpio_toggle_output_changes_its_state
+  :line: 91
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 5
+  :passed: 5
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.0022326130001601996

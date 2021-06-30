@@ -1,0 +1,7 @@
+---
+test/support/xc_stub.c:
+- TEST
+src/gpio.c:
+- TEST
+src/fsm.c:
+- TEST
