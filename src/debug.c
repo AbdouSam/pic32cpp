@@ -16,7 +16,7 @@ typedef struct
 
 static dbg_port_t dbg_port;
 
-static void dbg_puts(int id, char *s)
+static void dbg_puts(pic32_uart_t id, char *s)
 {
   unsigned int i;
 

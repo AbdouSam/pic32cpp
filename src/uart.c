@@ -59,10 +59,10 @@
                              (1 << USTA_UTXISEL_BIT_2))
 typedef struct
 {
-  uint8_t rxpin;
-  uint8_t txpin;
+  pic32_pin_t rxpin;
+  pic32_pin_t txpin;
   uint8_t txfun;
-  uint32_t volatile * const rxreg;
+  uint32_t volatile * rxreg;
 }uart_map_t;
 
 static uint32_t volatile * const uart_mode[PIC32_UART_MAX] =
@@ -204,10 +204,10 @@ static uart_map_t const uart_map[PIC32_UART_MAX]=
   },
   {
   #if (PIC32_UART_4_ENABLED == 1)
-    .rxpin = PIC32_UART_4_RX_PIN,
-    .txpin = PIC32_UART_4_TX_PIN,
-    .rxreg = &U4RXR,
-    .txfun = PIC32_FUNC_U4TX,
+   PIC32_UART_4_RX_PIN,
+   PIC32_UART_4_TX_PIN,
+   PIC32_FUNC_U4TX,
+   &U4RXR,
   #endif
   },
   {

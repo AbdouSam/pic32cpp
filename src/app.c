@@ -3,23 +3,25 @@
  * @brief, simplest code to test-run a PIC32MZ without any use of libraries
  *
  */
-#include <stdbool.h>
 
 #include <xc.h>
+
+
 #include <string.h>
+#include <stdbool.h>
 
 #include "pic32_config.h"
-#include "debug.h"
 
-#include "helpers.h"
+/*
+#include "debug.h"
+#include "uart.h"
+*/
+#include "interrupt.h"
+#include "timer.h"
 #include "sysclk.h"
 #include "gpio.h"
-#include "uart.h"
 #include "delay.h"
-#include "timer.h"
-#include "interrupt.h"
 #include "app.h"
-#include "uart.h"
 
 /* This define is to set the  µC to run on internal clock
  * config is set to run CPU at 200 Mhz,
@@ -103,18 +105,14 @@
 #pragma config TSEQ =       0x0000
 #pragma config CSEQ =       0xffff
 
-
+#if 0
 static char          c_tmp;
 static char          rx_tmp[10];
 static int           rx_index = 0;
+#endif
+
 static unsigned int  millis = 0;
 static bool          wdt_clear_flag = true;
-
-
-static bool first_start = true;
-static bool relay_started = false;
-static uint32_t relay_time_now = 0;
-static bool plc_run_flag = false;
 
 static void wdt_clear(void)
 {
@@ -124,15 +122,6 @@ static void wdt_clear(void)
   wdtclrkey     = ( (volatile uint16_t *)&WDTCON ) + 1;
   *wdtclrkey    = 0x5743;
   asm volatile("ei");
-}
-
-static char read_char(void)
-{
-  if (uart_rx_any(PIC32_UART_4)) /* Data ready */
-    {
-      return uart_rx_char(PIC32_UART_4);
-    }
-  return 0;
 }
 
 /**
@@ -145,9 +134,14 @@ void timer_2_callback(void)
   wdt_clear_flag = true;
 }
 
-void timer_4_callback(void)
+#if 0
+static char read_char(void)
 {
-  plc_run_flag = true;
+  if (uart_rx_any(PIC32_UART_4)) /* Data ready */
+    {
+      return uart_rx_char(PIC32_UART_4);
+    }
+  return 0;
 }
 
 void uart_callback(void)
@@ -165,9 +159,10 @@ void uart_callback(void)
   }
 }
 
+#endif
+
 int app_init(void)
 {
-
   sysclk_init();
 
   /* Initial IO as it is set in pic32_config.h */
@@ -177,36 +172,27 @@ int app_init(void)
   gpio_state_clear(LED_RED);
   gpio_state_clear(LED_GREEN);
 
-  uart_rxi_set(PIC32_UART_4, 3, IF_RBUF_NOT_EMPTY, uart_callback);
+  //uart_rxi_set(PIC32_UART_4, 3, IF_RBUF_NOT_EMPTY, uart_callback);
   
-  debug_init();
+  //debug_init();
 
   delay_ms(100);
 
-  debug_print("Hello World\n");
+  //debug_print("Hello World\n");
 
   timer_1_init();
 
   if (timer_init(PIC32_TIMER_2, 2 /* Hz */, 0) < 0)
   {
-    debug_print("Timer 2 failed to init\n");
+    //debug_print("Timer 2 failed to init\n");
   } 
-
-  if (timer_init(PIC32_TIMER_4, 1000 /* Hz */, 0) < 0)
-  {
-    debug_print("Timer 4 failed to init\n");
-  } 
-
 
   interrupt_init();
-
   return 0;
 }
 
 void app_task(void)
 {
-  int c_local;
-
   if (interrupt_tick_get() - millis >= 1000)
     {
       /* test timer/interrupt/gpio */
@@ -216,25 +202,8 @@ void app_task(void)
 
     }
 
-
-  if (gpio_state_get(RELAY_OUT5))
-    {
-      if (first_start == true)
-      {
-        first_start = false;
-        relay_time_now = interrupt_tick_get();
-        relay_started = true;
-      }
-    }
-  else
-    {
-      if (relay_started)
-      {
-        relay_started = false;
-        first_start = true;
-        debug_print("Time on %d ms\n", interrupt_tick_get() - relay_time_now);
-      }
-    }
+  #if 0
+  int c_local;
 
   if ((c_tmp >= 'a') && (c_tmp <= 'z'))
     {
@@ -254,6 +223,7 @@ void app_task(void)
       c_tmp = 0;
     }
 
+#endif
   if (wdt_clear_flag)
   {
     wdt_clear_flag = false;

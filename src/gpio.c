@@ -29,7 +29,7 @@
   #error "Pin Count Inavailable in this series"
 #endif
 
-#define is_regindex_valid(x)  if (x > GPIO_MAP_REG_MAX)return (ERRMAX)
+#define is_regindex_valid(x)  if ((unsigned)x > GPIO_MAP_REG_MAX)return (ERRMAX)
 
 static const uint32_t ports_direction[] =
 {
@@ -484,14 +484,22 @@ static uint32_t volatile  * const   output_map_register[] = {
 
 static inline pic32_gpio_port_t getportnumber(pic32_pin_t pin)
 {
-  pic32_gpio_port_t port = pin / (uint32_t)PIC32_MAX_PORT_PIN;
+  pic32_gpio_port_t port = (pic32_gpio_port_t)(pin / (uint32_t)PIC32_MAX_PORT_PIN);
 
   assert(port < PIC32_PORT_MAX);
 
   return port;
 }
 
-int gpio_outfunc_map_set(int func_index, uint8_t value)
+static inline pic32_pin_t getpinnumber(pic32_pin_t pin, pic32_gpio_port_t port)
+{
+   pin = (pic32_pin_t)((uint32_t)pin - (port * (uint32_t)PIC32_MAX_PORT_PIN));
+   
+   assert(pin < PIC32_MAX_PORT_PIN);
+
+   return pin;
+}
+int gpio_outfunc_map_set(int func_index, int value)
 {
   is_regindex_valid(func_index);
   *output_map_register[func_index] = value;
@@ -502,7 +510,7 @@ void gpio_output_set(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   BIT_CLR(gpio_tris[port], pin);
 }
@@ -511,7 +519,7 @@ void gpio_input_set(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   BIT_SET(gpio_tris[port], pin);
 }
@@ -520,7 +528,7 @@ void gpio_state_write(pic32_pin_t pin, bool state)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   if (state)
     {
@@ -536,7 +544,7 @@ void gpio_state_set(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   BIT_SET(gpio_lat[port], pin);
 }
@@ -545,7 +553,7 @@ void gpio_state_clear(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   BIT_CLR(gpio_lat[port], pin);
 }
@@ -554,7 +562,7 @@ void gpio_state_toggle(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   BIT_INV(gpio_lat[port], pin);
 }
@@ -563,7 +571,7 @@ bool gpio_state_get(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   return !((*gpio_port[port] & (1 << pin)) == 0);
 }
@@ -572,7 +580,7 @@ bool gpio_isinput(pic32_pin_t pin)
 {
   pic32_gpio_port_t port = getportnumber(pin);
 
-  pin = pin - (port * PIC32_MAX_PORT_PIN);
+  pin = getpinnumber(pin, port);
 
   return !((*gpio_tris[port] & (1 << pin)) == 0);
 }
@@ -586,7 +594,7 @@ int gpio_map_getindex(pic32_pin_t pin)
 {
   int i;
 
-  for (i = 0; i < GPIO_MAP_REG_MAX; i++)
+  for (i = 0; i < (int)GPIO_MAP_REG_MAX; i++)
     {
       if (pin == pin_map[i])
         {

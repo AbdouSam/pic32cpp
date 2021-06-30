@@ -12,21 +12,25 @@ LD_DIR  = scripts
 LD_FILE = generic_pic32mz.ld
 CFG_FILE = pic32_config.h
 
-CSRCS = main.c \
-        uart.c \
+CSRCS = app.c \
         gpio.c \
         sysclk.c \
         delay.c \
         timer.c \
         interrupt.c \
-        app.c \
-        debug.c \
+	#uart.c \
+        #debug.c \
+
+CPPSRCS = main.cpp 
 
 SRC_C = $(addprefix $(SRC_DIR)/, $(CSRCS))
 OBJS  = $(addprefix $(OBJ_DIR)/, $(CSRCS:.c=.o))
 
+SRC_CPP = $(addprefix $(SRC_DIR)/, $(CPPSRCS))
+OBJSCPP  = $(addprefix $(OBJ_DIR)/, $(CPPSRCS:.cpp=.o))
+
 CFLAGS = -mprocessor=$(MCU)
-CFLAGS += $(INC_DIR) -std=gnu99 -O1 -Wfatal-errors -Winline -Wall -no-legacy-libc -finline
+CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -no-legacy-libc -finline
 
 MIN_HEAP_SIZE = 0
 MIN_STACK_SIZE = 0x400
@@ -50,13 +54,17 @@ $(BIN_DIR)/firmware.hex: $(BIN_DIR)/firmware.elf
 	@echo "Create $@"
 	@$(CROSS_COMPILE)bin2hex $<
 
-$(BIN_DIR)/firmware.elf: $(OBJS)
+$(BIN_DIR)/firmware.elf: $(OBJS) $(OBJSCPP)
 	@echo "LINK $@"
 	@$(CROSS_COMPILE)g++ $(LDFLAGS) -o $@ $^ $(LIBS)
 
-$(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(SRC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
+$(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c  $(SRC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
 	@echo "Compile $< to get $@"
-	@$(CROSS_COMPILE)g++ -c -x c $(CFLAGS) $< -o $@  $(LIBS)
+	@$(CROSS_COMPILE)g++ -c $(CFLAGS) $< -o $@  $(LIBS)
+
+$(OBJSCPP): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp  $(SRC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
+	@echo "Compile $< to get $@"
+	@$(CROSS_COMPILE)g++ -c $(CFLAGS) $< -o $@  $(LIBS)
 
 .PHONY: clean all program
 

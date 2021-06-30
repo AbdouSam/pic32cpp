@@ -27,6 +27,10 @@
 
 uint32_t global_tick = 0;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void __attribute__((vector(_TIMER_1_VECTOR), interrupt(ipltmr1AUTO),
                     nomips16)) _timer1_interrupt(void)
 {
@@ -223,3 +227,7 @@ uint32_t interrupt_tick_get(void)
 {
   return global_tick;
 }
+
+#ifdef __cplusplus
+}
+#endif

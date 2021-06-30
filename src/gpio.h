@@ -248,7 +248,7 @@ void gpio_input_set(pic32_pin_t nbr);
 
 void gpio_output_set(pic32_pin_t nbr);
 
-int gpio_outfunc_map_set(int func_index, uint8_t value);
+int gpio_outfunc_map_set(int func_index, int value);
 
 int gpio_map_getindex(pic32_pin_t pin);
 
