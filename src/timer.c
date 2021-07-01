@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 #include <xc.h>
 
 #include "pic32_config.h"
