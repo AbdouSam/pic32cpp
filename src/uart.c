@@ -204,10 +204,10 @@ static uart_map_t const uart_map[PIC32_UART_MAX]=
   },
   {
   #if (PIC32_UART_4_ENABLED == 1)
-   PIC32_UART_4_RX_PIN,
-   PIC32_UART_4_TX_PIN,
-   PIC32_FUNC_U4TX,
-   &U4RXR,
+   .rxpin = PIC32_UART_4_RX_PIN,
+   .txpin = PIC32_UART_4_TX_PIN,
+   .txfun = PIC32_FUNC_U4TX,
+   .rxreg = &U4RXR,
   #endif
   },
   {
