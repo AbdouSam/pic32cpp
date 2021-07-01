@@ -1,10 +1,14 @@
-# Minimal code for PIC32
+# C++ code for PIC32
 
-A minimal source code to start working with pic32mz, without the use of any library (no Harmony).
+Testing code to work with c++
+
+The code is similair to the code in repo https://gitlab.com/abdousam/pic32mz-basic
+It uses c++ mixed with c files.
+
 
 ## toolchain
 
-- install mplab xc32 version less than or equaul to 2.15 (<= v2.15) and add xc32 bin directory it to PATH
+- install mplab xc32, recommneded v3 (previous versions had bugs)and add xc32 bin directory it to PATH
 - install make and add it to PATH
 - install Git
 - if python tools are used install python 3 and add it to PATH
