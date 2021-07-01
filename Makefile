@@ -30,13 +30,13 @@ SRC_CPP = $(addprefix $(SRC_DIR)/, $(CPPSRCS))
 OBJSCPP  = $(addprefix $(OBJ_DIR)/, $(CPPSRCS:.cpp=.o))
 
 CFLAGS = -mprocessor=$(MCU)
-CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -Wextra -no-legacy-libc -finline -mgp32 -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables
+CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -Wextra -no-legacy-libc -finline -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables
 
 MIN_HEAP_SIZE = 0
 MIN_STACK_SIZE = 0x400
 
 LDFLAGS = -mprocessor=$(MCU)
-LDFLAGS+= -no-legacy-libc -mgp32
+LDFLAGS+= -no-legacy-libc
 
 ifeq ($(LD_SCRIPT), custom)
 LDFLAGS+= -Wl,--script="$(LD_DIR)/$(LD_FILE)"
