@@ -30,13 +30,13 @@ SRC_CPP = $(addprefix $(SRC_DIR)/, $(CPPSRCS))
 OBJSCPP  = $(addprefix $(OBJ_DIR)/, $(CPPSRCS:.cpp=.o))
 
 CFLAGS = -mprocessor=$(MCU)
-CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -no-legacy-libc -finline
+CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -Wextra -no-legacy-libc -finline -mgp32 -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables
 
 MIN_HEAP_SIZE = 0
 MIN_STACK_SIZE = 0x400
 
 LDFLAGS = -mprocessor=$(MCU)
-LDFLAGS+= -no-legacy-libc 
+LDFLAGS+= -no-legacy-libc -mgp32
 
 ifeq ($(LD_SCRIPT), custom)
 LDFLAGS+= -Wl,--script="$(LD_DIR)/$(LD_FILE)"
@@ -70,6 +70,7 @@ $(OBJSCPP): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp  $(SRC_DIR)/$(CFG_FILE) $(shell mkd
 
 clean:
 	@rm -f $(OBJS)
+	@rm -f $(OBJSCPP)
 	@rm -f $(BIN_DIR)/firmware.hex $(BIN_DIR)/firmware.elf $(BIN_DIR)/firmware.map
 	@echo "Cleanup complete."
 
