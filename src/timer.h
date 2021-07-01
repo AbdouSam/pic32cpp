@@ -45,9 +45,10 @@ extern "C" {
 
 void timer_1_init(void);
 
-int timer_init(pic32_timer_t timer_id, 
-                uint32_t freq,
-                uint8_t subp);
+int timer_init(pic32_timer_t timer_id,
+               uint32_t freq,
+               uint8_t subp,
+               int_callback_ft intcb);
 
 int timer_stop(pic32_timer_t timer_id);
 

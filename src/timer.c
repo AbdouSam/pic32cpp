@@ -76,7 +76,7 @@ static uint32_t volatile * const tmr_tmr[PIC32_TIMER_MAX] =
   &TMR9,
 };
 
-static intr_regs_t const timer_intr[PIC32_TIMER_MAX] =
+static intr_regs_t const timer_intreg[PIC32_TIMER_MAX] =
 {
   {
     .flag      = &IFS0,
@@ -162,6 +162,7 @@ static intr_regs_t const timer_intr[PIC32_TIMER_MAX] =
 
 };
 
+static int_callback_ft timer_int_cb[PIC32_TIMER_MAX];
 
 void timer_1_init(void)
 {
@@ -173,24 +174,27 @@ void timer_1_init(void)
   *tmr_loadval[PIC32_TIMER_1] = tmr_clk / TIMER_1_FREQ / tmr1_prescale_value[TMR_PRESCALE_1];
   BIT_MASK(tmr_con[PIC32_TIMER_1], TMR1_TCKPS_MASK, (TMR_PRESCALE_1 << TMR_TCKPS_BIT_1));
 
-  BIT_CLR(timer_intr[PIC32_TIMER_1].enable, timer_intr[PIC32_TIMER_1].ibit);
+  BIT_CLR(timer_intreg[PIC32_TIMER_1].enable, timer_intreg[PIC32_TIMER_1].ibit);
   
-  BIT_CLR(timer_intr[PIC32_TIMER_1].flag, timer_intr[PIC32_TIMER_1].ibit);
+  BIT_CLR(timer_intreg[PIC32_TIMER_1].flag, timer_intreg[PIC32_TIMER_1].ibit);
 
-  BIT_WRITE(timer_intr[PIC32_TIMER_1].prio, INT_PRIO_BITLEN, 
-            timer_intr[PIC32_TIMER_1].prioshift,
-            timer_intr[PIC32_TIMER_1].defprio);
+  BIT_WRITE(timer_intreg[PIC32_TIMER_1].prio, INT_PRIO_BITLEN, 
+            timer_intreg[PIC32_TIMER_1].prioshift,
+            timer_intreg[PIC32_TIMER_1].defprio);
 
-  BIT_WRITE(timer_intr[PIC32_TIMER_1].prio, INT_SUBP_BITLEN,
-            timer_intr[PIC32_TIMER_1].subpshift,
+  BIT_WRITE(timer_intreg[PIC32_TIMER_1].prio, INT_SUBP_BITLEN,
+            timer_intreg[PIC32_TIMER_1].subpshift,
             0);
 
-  BIT_SET(timer_intr[PIC32_TIMER_1].enable, timer_intr[PIC32_TIMER_1].ibit);
+  BIT_SET(timer_intreg[PIC32_TIMER_1].enable, timer_intreg[PIC32_TIMER_1].ibit);
 
   BIT_SET(tmr_con[PIC32_TIMER_1], TMR_ON_BIT);
 }
 
-int timer_init(pic32_timer_t timer_id, uint32_t freq, uint8_t subp)
+int timer_init(pic32_timer_t timer_id,
+               uint32_t freq,
+               uint8_t subp,
+               int_callback_ft intcb)
 {
   uint32_t tmr_clk;
   uint32_t tmr_preload;
@@ -226,19 +230,22 @@ int timer_init(pic32_timer_t timer_id, uint32_t freq, uint8_t subp)
   BIT_MASK(tmr_con[timer_id], TMR_TCKPS_MASK, (prs_idx << TMR_TCKPS_BIT_1));
 
 
-  BIT_CLR(timer_intr[timer_id].enable, timer_intr[timer_id].ibit);
+  BIT_CLR(timer_intreg[timer_id].enable, timer_intreg[timer_id].ibit);
   
-  BIT_CLR(timer_intr[timer_id].flag, timer_intr[timer_id].ibit);
+  BIT_CLR(timer_intreg[timer_id].flag, timer_intreg[timer_id].ibit);
 
-  BIT_WRITE(timer_intr[timer_id].prio, INT_PRIO_BITLEN, 
-            timer_intr[timer_id].prioshift,
-            timer_intr[timer_id].defprio);
+  BIT_WRITE(timer_intreg[timer_id].prio, INT_PRIO_BITLEN, 
+            timer_intreg[timer_id].prioshift,
+            timer_intreg[timer_id].defprio);
 
-  BIT_WRITE(timer_intr[timer_id].prio, INT_SUBP_BITLEN,
-            timer_intr[timer_id].subpshift,
+  BIT_WRITE(timer_intreg[timer_id].prio, INT_SUBP_BITLEN,
+            timer_intreg[timer_id].subpshift,
             subp);
 
-  BIT_SET(timer_intr[timer_id].enable, timer_intr[timer_id].ibit);
+  BIT_SET(timer_intreg[timer_id].enable, timer_intreg[timer_id].ibit);
+
+  if (intcb != NULL)
+    timer_int_cb[timer_id] = intcb;
 
   BIT_SET(tmr_con[timer_id], TMR_ON_BIT);
 
@@ -256,3 +263,75 @@ int timer_stop(pic32_timer_t timer_id)
 
   return 0;
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#if (TIMER_2_ENABLED == 1)
+void timer_2_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_2] != NULL)
+    timer_int_cb[PIC32_TIMER_2]();
+}
+#endif
+
+#if (TIMER_3_ENABLED == 1)
+void timer_3_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_3] != NULL)
+    timer_int_cb[PIC32_TIMER_3]();
+}
+#endif
+
+#if (TIMER_4_ENABLED == 1)
+void timer_4_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_4] != NULL)
+    timer_int_cb[PIC32_TIMER_4]();
+}
+#endif
+
+#if (TIMER_5_ENABLED == 1)
+void timer_5_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_5] != NULL)
+    timer_int_cb[PIC32_TIMER_5]();
+}
+#endif
+
+#if (TIMER_6_ENABLED == 1)
+void timer_6_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_6] != NULL)
+    timer_int_cb[PIC32_TIMER_6]();
+}
+#endif
+
+#if (TIMER_7_ENABLED == 1)
+void timer_7_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_7] != NULL)
+    timer_int_cb[PIC32_TIMER_7]();
+}
+#endif
+
+#if (TIMER_8_ENABLED == 1)
+void timer_8_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_8] != NULL)
+    timer_int_cb[PIC32_TIMER_8]();
+}
+#endif
+
+#if (TIMER_9_ENABLED == 1)
+void timer_9_callback(void)
+{
+  if (timer_int_cb[PIC32_TIMER_9] != NULL)
+    timer_int_cb[PIC32_TIMER_9]();
+}
+#endif
+
+#ifdef __cplusplus
+}
+#endif
