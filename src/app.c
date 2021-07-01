@@ -6,7 +6,7 @@
 
 #include <xc.h>
 
-
+#include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 
@@ -123,7 +123,8 @@ static void wdt_clear(void)
 /**
  * override weak def in interrupt.c 
  */
-void timer_2_callback(void)
+
+void timer_wdt_callback(void)
 {
   gpio_state_toggle(LED_RED);
   gpio_state_toggle(LED_GREEN);
@@ -157,7 +158,6 @@ void uart_callback(void)
 int app_init(void)
 {
   sysclk_init();
-
   /* Initial IO as it is set in pic32_config.h */
   gpio_init();
 
@@ -175,7 +175,7 @@ int app_init(void)
 
   timer_1_init();
 
-  if (timer_init(PIC32_TIMER_2, 2 /* Hz */, 0) < 0)
+  if (timer_init(PIC32_TIMER_2, 2 /* Hz */, 0, timer_wdt_callback) < 0)
   {
     debug_print("Timer 2 failed to init\n");
   } 
