@@ -40,9 +40,7 @@ void __attribute__((vector(_TIMER_1_VECTOR), interrupt(ipltmr1AUTO),
 }
 
 #if (TIMER_2_ENABLED == 1)
-void __attribute__((weak)) timer_2_callback(void)
-{
-}
+extern void timer_2_callback(void);
 
 void __attribute__((vector(_TIMER_2_VECTOR), interrupt(ipltmr2AUTO),
                          nomips16)) _timer2_interrupt(void)
@@ -54,9 +52,7 @@ void __attribute__((vector(_TIMER_2_VECTOR), interrupt(ipltmr2AUTO),
 #endif
 
 #if (TIMER_3_ENABLED == 1)
-void __attribute__((weak)) timer_3_callback(void)
-{
-}
+extern void timer_3_callback(void);
 
 void __attribute__((vector(_TIMER_3_VECTOR), interrupt(ipltmr3AUTO),
                          nomips16)) _timer3_interrupt(void)
@@ -68,9 +64,7 @@ void __attribute__((vector(_TIMER_3_VECTOR), interrupt(ipltmr3AUTO),
 #endif
 
 #if (TIMER_4_ENABLED == 1)
-void __attribute__((weak)) timer_4_callback(void)
-{
-}
+extern void timer_4_callback(void);
 
 void __attribute__((vector(_TIMER_4_VECTOR), interrupt(ipltmr4AUTO),
                          nomips16)) _timer4_interrupt(void)
@@ -82,9 +76,7 @@ void __attribute__((vector(_TIMER_4_VECTOR), interrupt(ipltmr4AUTO),
 #endif
 
 #if (TIMER_5_ENABLED == 1)
-void __attribute__((weak)) timer_5_callback(void)
-{
-}
+extern void timer_5_callback(void);
 
 void __attribute__((vector(_TIMER_5_VECTOR), interrupt(ipltmr5AUTO),
                          nomips16)) _timer5_interrupt(void)
@@ -96,9 +88,7 @@ void __attribute__((vector(_TIMER_5_VECTOR), interrupt(ipltmr5AUTO),
 #endif
 
 #if (TIMER_6_ENABLED == 1)
-void __attribute__((weak)) timer_6_callback(void)
-{
-}
+extern void timer_6_callback(void);
 
 void __attribute__((vector(_TIMER_6_VECTOR), interrupt(ipltmr6AUTO),
                          nomips16)) _timer6_interrupt(void)
@@ -110,9 +100,7 @@ void __attribute__((vector(_TIMER_6_VECTOR), interrupt(ipltmr6AUTO),
 #endif
 
 #if (TIMER_7_ENABLED == 1)
-void __attribute__((weak)) timer_7_callback(void)
-{
-}
+extern void timer_7_callback(void);
 
 void __attribute__((vector(_TIMER_7_VECTOR), interrupt(ipltmr7AUTO),
                          nomips16)) _timer7_interrupt(void)
@@ -124,9 +112,7 @@ void __attribute__((vector(_TIMER_7_VECTOR), interrupt(ipltmr7AUTO),
 #endif
 
 #if (TIMER_8_ENABLED == 1)
-void __attribute__((weak)) timer_8_callback(void)
-{
-}
+extern void timer_8_callback(void);
 
 void __attribute__((vector(_TIMER_8_VECTOR), interrupt(ipltmr8AUTO),
                          nomips16)) _timer8_interrupt(void)
@@ -138,9 +124,7 @@ void __attribute__((vector(_TIMER_8_VECTOR), interrupt(ipltmr8AUTO),
 #endif
 
 #if (TIMER_9_ENABLED == 1)
-void __attribute__((weak)) timer_9_callback(void)
-{
-}
+extern void timer_9_callback(void);
 
 void __attribute__((vector(_TIMER_9_VECTOR), interrupt(ipltmr9AUTO),
                          nomips16)) _timer9_interrupt(void)
@@ -182,9 +166,7 @@ void __attribute__((vector(_UART3_RX_VECTOR), interrupt(ipluart3AUTO),
 #endif
 
 #if (PIC32_UART_4_ENABLED == 1)
-extern "C" {
-  extern void uartrx_4_callback(void);
-}
+extern void uartrx_4_callback(void);
 
 void __attribute__((vector(_UART4_RX_VECTOR), interrupt(ipluart4AUTO),
                          nomips16)) _uartrx4_interrupt(void)
