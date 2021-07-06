@@ -1,6 +1,11 @@
 #ifndef XC_STUB_H
 #define XC_STUB_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /**
  * Stub for GPIO register to unit test the module
  */
@@ -134,6 +139,10 @@ extern volatile uint32_t RPF13R;
 extern volatile uint32_t RPF2R;
 extern volatile uint32_t RPC2R;
 extern volatile uint32_t RPE8R;
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif //XC_STUB_H

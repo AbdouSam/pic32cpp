@@ -8,6 +8,7 @@ INC_DIR = -I./src
 OBJ_DIR = build/release/out
 BIN_DIR = build/release
 SRC_DIR = src
+TEST_DIR = unittest
 LD_DIR  = scripts
 LD_FILE = generic_pic32mz.ld
 CFG_FILE = pic32_config.h
@@ -66,13 +67,19 @@ $(OBJSCPP): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp  $(SRC_DIR)/$(CFG_FILE) $(shell mkd
 	@echo "Compile $< to get $@"
 	@$(CROSS_COMPILE)g++ -c $(CFLAGS) $< -o $@  $(LIBS)
 
-.PHONY: clean all program
+.PHONY: clean all program test
 
 clean:
 	@rm -f $(OBJS)
 	@rm -f $(OBJSCPP)
 	@rm -f $(BIN_DIR)/firmware.hex $(BIN_DIR)/firmware.elf $(BIN_DIR)/firmware.map
 	@echo "Cleanup complete."
+
+test:
+	make -C $(TEST_DIR)
+
+test_clean:
+	make -C $(TEST_DIR) clean
 
 # watchout, this routine uncrustify all files in src directory
 uncrustify:

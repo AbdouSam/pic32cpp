@@ -1,6 +1,10 @@
-#include <stdint.h>
+#ifdef TEST
+#include "xc_stub.h"
+#else
 #include <xc.h>
+#endif
 
+#include <stdint.h>
 #include "pic32_config.h"
 #include "sysclk.h"
 #include "interrupt.h"

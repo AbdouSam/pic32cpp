@@ -1,5 +1,6 @@
-#include <stdint.h>
 #include <xc.h>
+
+#include <stdint.h>
 #include "pic32_config.h"
 #include "interrupt.h"
 

@@ -1,4 +1,8 @@
+#ifdef TEST
+#include "xc_stub.h"
+#else
 #include <xc.h>
+#endif
 
 #include "interrupt.h"
 #include "helpers.h"
