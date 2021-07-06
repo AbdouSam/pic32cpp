@@ -94,3 +94,35 @@ there are examples of bootloader from the harmony library.
 
 if a bootloader is in place, the script in `tools/programmer.py` can be used to upload the code through UART or UDP. 
 
+## Unit Testing
+
+all unit testing and located in the unittest folder, which is based on cpputest.
+
+unittest folder has its own makefile. Any new source files added to tests must be added 
+in the make file.
+
+`unitest` has `src` folder, which contains the source code of tests, and `support` folder that contains mocks and stubs
+
+
+1. get and configure cpputest
+
+```sh
+git clone https://github.com/cpputest/cpputest.git
+cd cpputest
+autoreconf . -i
+./configure
+make tdd
+````
+
+2. CPPUTEST_HOME must be set
+
+```sh
+export CPPUTEST_HOME=/some/path/cpputest
+````
+
+3. run tests
+
+```sh
+make test_clean # clean test obj
+make test # run unit tests
+```
