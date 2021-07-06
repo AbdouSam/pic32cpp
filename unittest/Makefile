@@ -62,7 +62,6 @@ INCLUDE_DIRS += $(CPPUTEST_HOME)/include/Platforms/Gcc
 INCLUDE_DIRS += ../src
 INCLUDE_DIRS += src
 INCLUDE_DIRS += support
-INCLUDE_DIRS += src/exploding-fakes
 #INCLUDE_DIRS += support/fff
 
 
