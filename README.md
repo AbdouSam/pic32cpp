@@ -65,7 +65,7 @@ setting the Shadow register for a given interrupt vector is set in compile time 
 
 ## application
 
-by default tha main function calls two functions, `app_init` one time before the infinite loop and `app_task()` in an infinite loop
+by default the main function calls two functions, `app_init` one time before the infinite loop and `app_task()` in an infinite loop
 
 `app.c` provide a simple example of use.
 
@@ -96,10 +96,10 @@ if a bootloader is in place, the script in `tools/programmer.py` can be used to 
 
 ## Unit Testing
 
-all unit testing and located in the unittest folder, which is based on cpputest.
+all unit testing are located in the `unittest` folder, unit testing is based on cpputest.
 
-unittest folder has its own makefile. Any new source files added to tests must be added 
-in the make file.
+`unittest` folder has its own makefile. Any new source files added to tests must be added 
+in the makefile.
 
 `unitest` has `src` folder, which contains the source code of tests, and `support` folder that contains mocks and stubs
 
