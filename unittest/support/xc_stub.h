@@ -16,6 +16,7 @@ extern "C" {
 extern volatile uint32_t PORTA;
 extern volatile uint32_t TRISA;
 extern volatile uint32_t LATA;
+extern volatile uint32_t ODCA;
 extern volatile uint32_t ANSELA;
 extern volatile uint32_t ANSELC;
 extern volatile uint32_t ANSELF;
@@ -25,23 +26,29 @@ extern volatile uint32_t ANSELF;
 extern volatile uint32_t PORTB;
 extern volatile uint32_t TRISB;
 extern volatile uint32_t LATB;
+extern volatile uint32_t ODCB;
 extern volatile uint32_t ANSELB;
 extern volatile uint32_t PORTC;
 extern volatile uint32_t TRISC;
 extern volatile uint32_t LATC;
+extern volatile uint32_t ODCC;
 extern volatile uint32_t PORTD;
 extern volatile uint32_t TRISD;
 extern volatile uint32_t LATD;
+extern volatile uint32_t ODCD;
 extern volatile uint32_t PORTE;
 extern volatile uint32_t TRISE;
 extern volatile uint32_t LATE;
+extern volatile uint32_t ODCE;
 extern volatile uint32_t ANSELE;
 extern volatile uint32_t PORTF;
 extern volatile uint32_t TRISF;
 extern volatile uint32_t LATF;
+extern volatile uint32_t ODCF;
 extern volatile uint32_t PORTG;
 extern volatile uint32_t TRISG;
 extern volatile uint32_t LATG;
+extern volatile uint32_t ODCG;
 extern volatile uint32_t ANSELG;
 
 #if ((PIC32_PIN_COUNT != 64) && (PIC32_PIN_COUNT != 100))
@@ -49,11 +56,13 @@ extern volatile uint32_t ANSELG;
 extern volatile uint32_t PORTH;
 extern volatile uint32_t TRISH;
 extern volatile uint32_t LATH;
+extern volatile uint32_t ODCH;
 extern volatile uint32_t ANSELH   ;
 extern volatile uint32_t ANSELJ   ;
 extern volatile uint32_t PORTJ;
 extern volatile uint32_t TRISJ;
 extern volatile uint32_t LATJ;
+extern volatile uint32_t ODCJ;
 extern volatile uint32_t ANSELD;
 
 #endif
@@ -64,8 +73,10 @@ extern volatile uint32_t ANSELD;
 extern volatile uint32_t PORTK;
 extern volatile uint32_t TRISK;
 extern volatile uint32_t LATK;
+extern volatile uint32_t ODCK;
 
 #endif
+
 
 
 extern volatile uint32_t RPD2R;

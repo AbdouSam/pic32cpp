@@ -10,6 +10,7 @@
 volatile uint32_t PORTA = 0;
 volatile uint32_t TRISA = 0;
 volatile uint32_t LATA = 0;
+volatile uint32_t ODCA = 0;
 volatile uint32_t ANSELA = 0;
 volatile uint32_t ANSELC = 0;
 volatile uint32_t ANSELF = 0;
@@ -19,23 +20,29 @@ volatile uint32_t ANSELF = 0;
 volatile uint32_t PORTB = 0;
 volatile uint32_t TRISB = 0;
 volatile uint32_t LATB = 0;
+volatile uint32_t ODCB = 0;
 volatile uint32_t ANSELB = 0;
 volatile uint32_t PORTC = 0;
 volatile uint32_t TRISC = 0;
 volatile uint32_t LATC = 0;
+volatile uint32_t ODCC = 0;
 volatile uint32_t PORTD = 0;
 volatile uint32_t TRISD = 0;
 volatile uint32_t LATD = 0;
+volatile uint32_t ODCD = 0;
 volatile uint32_t PORTE = 0;
 volatile uint32_t TRISE = 0;
 volatile uint32_t LATE = 0;
+volatile uint32_t ODCE = 0;
 volatile uint32_t ANSELE = 0;
 volatile uint32_t PORTF = 0;
 volatile uint32_t TRISF = 0;
 volatile uint32_t LATF = 0;
+volatile uint32_t ODCF = 0;
 volatile uint32_t PORTG = 0;
 volatile uint32_t TRISG = 0;
 volatile uint32_t LATG = 0;
+volatile uint32_t ODCG = 0;
 volatile uint32_t ANSELG = 0;
 
 #if ((PIC32_PIN_COUNT != 64) && (PIC32_PIN_COUNT != 100))
@@ -43,11 +50,13 @@ volatile uint32_t ANSELG = 0;
 volatile uint32_t PORTH = 0;
 volatile uint32_t TRISH = 0;
 volatile uint32_t LATH = 0;
+volatile uint32_t ODCH = 0;
 volatile uint32_t ANSELH    = 0;
 volatile uint32_t ANSELJ    = 0;
 volatile uint32_t PORTJ = 0;
 volatile uint32_t TRISJ = 0;
 volatile uint32_t LATJ = 0;
+volatile uint32_t ODCJ = 0;
 volatile uint32_t ANSELD = 0;
 
 #endif
@@ -58,6 +67,7 @@ volatile uint32_t ANSELD = 0;
 volatile uint32_t PORTK = 0;
 volatile uint32_t TRISK = 0;
 volatile uint32_t LATK = 0;
+volatile uint32_t ODCK = 0;
 
 #endif
 
