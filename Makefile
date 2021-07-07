@@ -3,8 +3,7 @@ CROSS_COMPILE ?= xc32-
 MCU = 32MZ2048EFM144
 LD_SCRIPT = custom
 
-INC_DIR = -I./include
-
+INC_DIR = include
 OBJ_DIR = build/release/out
 BIN_DIR = build/release
 SRC_DIR = src
@@ -31,7 +30,7 @@ SRC_CPP = $(addprefix $(SRC_DIR)/, $(CPPSRCS))
 OBJSCPP  = $(addprefix $(OBJ_DIR)/, $(CPPSRCS:.cpp=.o))
 
 CFLAGS = -mprocessor=$(MCU)
-CFLAGS += $(INC_DIR) -Wfatal-errors -Winline -Wall -Wextra -no-legacy-libc -finline -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables
+CFLAGS += -I./$(INC_DIR) -Wfatal-errors -Winline -Wall -Wextra -no-legacy-libc -finline -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables
 
 MIN_HEAP_SIZE = 0
 MIN_STACK_SIZE = 0x400
@@ -59,11 +58,11 @@ $(BIN_DIR)/firmware.elf: $(OBJS) $(OBJSCPP)
 	@echo "LINK $@"
 	@$(CROSS_COMPILE)g++ $(LDFLAGS) -o $@ $^ $(LIBS)
 
-$(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c  $(SRC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
+$(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c  $(INC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
 	@echo "Compile $< to get $@"
 	@$(CROSS_COMPILE)g++ -c $(CFLAGS) $< -o $@  $(LIBS)
 
-$(OBJSCPP): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp  $(SRC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
+$(OBJSCPP): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp  $(INC_DIR)/$(CFG_FILE) $(shell mkdir -p $(OBJ_DIR))
 	@echo "Compile $< to get $@"
 	@$(CROSS_COMPILE)g++ -c $(CFLAGS) $< -o $@  $(LIBS)
 
