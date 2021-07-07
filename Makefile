@@ -20,6 +20,7 @@ CSRCS = app.c \
 	uart.c \
         interrupt.c \
         debug.c \
+        wdt.c \
 
 CPPSRCS = main.cpp 
 
