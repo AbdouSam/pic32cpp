@@ -3,7 +3,7 @@ CROSS_COMPILE ?= xc32-
 MCU = 32MZ2048EFM144
 LD_SCRIPT = custom
 
-INC_DIR = -I./src
+INC_DIR = -I./include
 
 OBJ_DIR = build/release/out
 BIN_DIR = build/release

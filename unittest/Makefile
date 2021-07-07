@@ -59,7 +59,7 @@ CPPUTEST_USE_EXTENSIONS = Y
 # containing directory
 INCLUDE_DIRS += $(CPPUTEST_HOME)/include
 INCLUDE_DIRS += $(CPPUTEST_HOME)/include/Platforms/Gcc
-INCLUDE_DIRS += ../src
+INCLUDE_DIRS += ../include
 INCLUDE_DIRS += src
 INCLUDE_DIRS += support
 #INCLUDE_DIRS += support/fff
