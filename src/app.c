@@ -18,6 +18,7 @@
 #include "gpio.h"
 #include "delay.h"
 #include "debug.h"
+#include "wdt.h"
 #include "app.h"
 
 static char          c_tmp;
@@ -26,16 +27,6 @@ static int           rx_index = 0;
 
 static unsigned int  millis = 0;
 static bool          wdt_clear_flag = true;
-
-static void wdt_clear(void)
-{
-  volatile uint16_t * wdtclrkey;
-  asm volatile("di");
-  /* get address of upper 16-bit word of the WDTCON SFR */
-  wdtclrkey     = ( (volatile uint16_t *)&WDTCON ) + 1;
-  *wdtclrkey    = 0x5743;
-  asm volatile("ei");
-}
 
 static void timer_wdt_callback(void)
 {
@@ -72,6 +63,10 @@ int app_init(void)
 {
   /* Initial IO as it is set in pic32_config.h */
   gpio_init();
+
+  gpio_output_set(LED_ORANGE);
+  gpio_output_set(LED_RED);
+  gpio_output_set(LED_GREEN);
 
   gpio_state_clear(LED_ORANGE);
   gpio_state_clear(LED_RED);
