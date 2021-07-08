@@ -24,10 +24,10 @@ endif
 # SRC_DIRS specifies directories containing
 # production code C and CPP files.
 #
-SRC_FILES += ../src/uart.c
 SRC_FILES += ../src/gpio.c
+SRC_FILES += ../src/gpio_cpp.cpp
 SRC_FILES += ../src/timer.c
-SRC_FILES += ../src/debug.c
+SRC_FILES += ../src/uart.c
 SRC_DIRS +=
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
@@ -42,6 +42,7 @@ SRC_DIRS +=
 TEST_SRC_FILES +=
 TEST_SRC_DIRS += src
 TEST_SRC_DIRS += support
+TEST_SRC_DIRS += mock
 TEST_SRC_DIRS += src/io-cppumock
 #TEST_SRC_DIRS += support/fff
 #	tests/example-fff \
