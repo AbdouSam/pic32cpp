@@ -177,115 +177,6 @@ namespace pic32plus
     #endif  /* 64 && 100 */
     };
 
-    static const uint8_t pps_pin_map[] = {
-      pinD2,
-      pinG8,
-      pinF4,
-      pinD10,
-      pinF1,
-      pinB9,
-      pinB10,
-      pinC14,
-      pinB5,
-      INPUT_PIN_NC,
-    #if (PIC32_PIN_COUNT != 64)
-      pinC1,
-      pinD14,
-      pinG1,
-      pinA14,
-    #else
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-    #endif
-    #if ((PIC32_PIN_COUNT != 100) && (PIC32_PIN_COUNT != 64))
-      pinD6,
-    #else
-      INPUT_PIN_NC,
-    #endif
-      INPUT_PIN_NC,
-
-      pinD3,
-      pinG7,
-      pinF5,
-      pinD11,
-      pinF0,
-      pinB1,
-      pinE5,
-      pinC13,
-      pinB3,
-      INPUT_PIN_NC,
-    #if (PIC32_PIN_COUNT != 64)
-      pinC4,
-      pinD15,
-      pinG0,
-      pinA15,
-    #else
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-    #endif
-    #if ((PIC32_PIN_COUNT != 100) && (PIC32_PIN_COUNT != 64))
-      pinD7,
-    #else
-      INPUT_PIN_NC,
-    #endif
-      INPUT_PIN_NC,
-
-      pinD9,
-      pinG6,
-      pinB8,
-      pinB15,
-      pinD4,
-      pinB0,
-      pinE3,
-      pinB7,
-      INPUT_PIN_NC,
-    #if (PIC32_PIN_COUNT != 64)
-      pinF12,
-      pinD12,
-      pinF8,
-      pinC3,
-      pinE9,
-    #else
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-
-    #endif
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-
-      pinD1,
-      pinG9,
-      pinB14,
-      pinD0,
-      INPUT_PIN_NC,
-      pinB6,
-      pinD5,
-      pinB2,
-      pinF3,
-    #if (PIC32_PIN_COUNT != 64)
-      pinF13,
-      INPUT_PIN_NC,
-      pinF2,
-      pinC2,
-      pinE8,
-    #else
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-    #endif
-      INPUT_PIN_NC,
-      INPUT_PIN_NC,
-    };
-
     enum port_t
     {
     #if (PIC32_PIN_COUNT != 64)
@@ -330,18 +221,9 @@ namespace pic32plus
     void set();
     void clear();
     bool read();
+    void toggle();
 
-    inline static int gpio_map_getindex(GPIO::pin_t pin)
-    {
-      for (int i = 0; i < (int)GPIO_MAP_REG_MAX; i++)
-        {
-          if (pin == GPIO::pps_pin_map[i])
-            {
-              return i;
-            }
-        }
-      return INPUT_PIN_NC;
-    }
+    inline static int gpio_map_getindex(GPIO::pin_t pin);
   private:
     uint8_t d_pin;
     GPIO::port_t d_port;
