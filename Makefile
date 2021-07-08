@@ -12,17 +12,18 @@ LD_DIR  = scripts
 LD_FILE = generic_pic32mz.ld
 CFG_FILE = pic32_config.h
 
-CSRCS = app.c \
+CSRCS = \
         gpio.c \
         sysclk.c \
         delay.c \
         timer.c \
 	uart.c \
         interrupt.c \
-        debug.c \
         wdt.c \
 
-CPPSRCS = main.cpp 
+CPPSRCS = main.cpp \
+	  gpio_cpp.cpp \
+	  app_blink.cpp 
 
 SRC_C = $(addprefix $(SRC_DIR)/, $(CSRCS))
 OBJS  = $(addprefix $(OBJ_DIR)/, $(CSRCS:.c=.o))
