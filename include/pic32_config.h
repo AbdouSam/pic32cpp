@@ -32,7 +32,7 @@
 #define PIC32_UART_1_ENABLED        (0)
 #define PIC32_UART_2_ENABLED        (0)
 #define PIC32_UART_3_ENABLED        (0)
-#define PIC32_UART_4_ENABLED        (1)
+#define PIC32_UART_4_ENABLED        (0)
 #define PIC32_UART_5_ENABLED        (0)
 #define PIC32_UART_6_ENABLED        (0)
 

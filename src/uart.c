@@ -63,8 +63,8 @@
                              (1 << USTA_UTXISEL_BIT_2))
 typedef struct
 {
-  pic32_pin_t rxpin;
-  pic32_pin_t txpin;
+  uint16_t rxpin;
+  uint16_t txpin;
   uint8_t txfun;
   uint32_t volatile * rxreg;
 }uart_map_t;
@@ -325,9 +325,9 @@ int uart_rxi_set(pic32_uart_t uart_id,
 
 static inline int set_uart_pinmap(pic32_uart_t uart_id)
 {
-  uint8_t func_index;
+  uint8_t func_index = 0; /* to be fixed */
 
-  func_index = gpio_map_getindex(uart_map[uart_id].rxpin);
+  // func_index = gpio_map_getindex(uart_map[uart_id].rxpin); // to be fixed
 
   if (func_index != INPUT_PIN_NC)
     {
@@ -339,11 +339,11 @@ static inline int set_uart_pinmap(pic32_uart_t uart_id)
       return -1; 
     }
 
-  func_index = gpio_map_getindex(uart_map[uart_id].txpin);
+  // func_index = gpio_map_getindex(uart_map[uart_id].txpin);
 
   gpio_outfunc_map_set(func_index, uart_map[uart_id].txfun);
 
-  gpio_input_set(uart_map[uart_id].rxpin);
+  gpio_input_set(0, uart_map[uart_id].rxpin); // turnaround before real fix
 
   return 0;
 }

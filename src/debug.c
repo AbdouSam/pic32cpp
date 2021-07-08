@@ -13,7 +13,7 @@
 typedef struct
 {
   pic32_uart_t id;
-  pic32_pin_t rs485pin;
+  uint16_t rs485pin;
 }dbg_port_t;
 
 static dbg_port_t dbg_port;
@@ -39,7 +39,7 @@ void debug_init(void)
 
   #ifdef CONFIG_DEBUG_RS485_PIN
   dbg_port.rs485pin = CONFIG_DEBUG_RS485_PIN;
-  gpio_output_set(dbg_port.rs485pin);
+  gpio_output_set(0, dbg_port.rs485pin); // for later fix
   #endif
 }
 
