@@ -1,5 +1,5 @@
-#ifndef INCLUDED_APP_H
-#define INCLUDED_APP_H
+#ifndef INCLUDED_BOARD_H
+#define INCLUDED_BOARD_H
 
 
 
@@ -49,18 +49,10 @@
 extern "C" {
 #endif
 
-/**
- * @brief app_init is called from the main before the infinite loop
- */
-int app_init(void);
-
-/**
- * @brief app_task is called in an infinite loop from the main
- */
-void app_task(void);
-
+// C functions
+  
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* INCLUDED_APP_H */
+#endif /* INCLUDED_BOARD_H */
