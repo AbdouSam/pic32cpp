@@ -116,114 +116,7 @@ uint32_t volatile *gpio_odc[] =
 #endif
 };
 
-static const uint8_t                pin_map[] = {
-  pinD2,
-  pinG8,
-  pinF4,
-  pinD10,
-  pinF1,
-  pinB9,
-  pinB10,
-  pinC14,
-  pinB5,
-  INPUT_PIN_NC,
-#if (PIC32_PIN_COUNT != 64)
-  pinC1,
-  pinD14,
-  pinG1,
-  pinA14,
-#else
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-#endif
-#if ((PIC32_PIN_COUNT != 100) && (PIC32_PIN_COUNT != 64))
-  pinD6,
-#else
-  INPUT_PIN_NC,
-#endif
-  INPUT_PIN_NC,
 
-  pinD3,
-  pinG7,
-  pinF5,
-  pinD11,
-  pinF0,
-  pinB1,
-  pinE5,
-  pinC13,
-  pinB3,
-  INPUT_PIN_NC,
-#if (PIC32_PIN_COUNT != 64)
-  pinC4,
-  pinD15,
-  pinG0,
-  pinA15,
-#else
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-#endif
-#if ((PIC32_PIN_COUNT != 100) && (PIC32_PIN_COUNT != 64))
-  pinD7,
-#else
-  INPUT_PIN_NC,
-#endif
-  INPUT_PIN_NC,
-
-  pinD9,
-  pinG6,
-  pinB8,
-  pinB15,
-  pinD4,
-  pinB0,
-  pinE3,
-  pinB7,
-  INPUT_PIN_NC,
-#if (PIC32_PIN_COUNT != 64)
-  pinF12,
-  pinD12,
-  pinF8,
-  pinC3,
-  pinE9,
-#else
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-
-#endif
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-
-  pinD1,
-  pinG9,
-  pinB14,
-  pinD0,
-  INPUT_PIN_NC,
-  pinB6,
-  pinD5,
-  pinB2,
-  pinF3,
-#if (PIC32_PIN_COUNT != 64)
-  pinF13,
-  INPUT_PIN_NC,
-  pinF2,
-  pinC2,
-  pinE8,
-#else
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-#endif
-  INPUT_PIN_NC,
-  INPUT_PIN_NC,
-};
 
 static uint32_t volatile  * const   output_map_register[] = {
   &RPD2R,
@@ -334,23 +227,6 @@ static uint32_t volatile  * const   output_map_register[] = {
   NULL,
 };
 
-static inline pic32_gpio_port_t getportnumber(pic32_pin_t pin)
-{
-  pic32_gpio_port_t port = (pic32_gpio_port_t)(pin / (uint32_t)PIC32_MAX_PORT_PIN);
-
-  assert(port < PIC32_PORT_MAX);
-
-  return port;
-}
-
-static inline pic32_pin_t getpinnumber(pic32_pin_t pin, pic32_gpio_port_t port)
-{
-   pin = (pic32_pin_t)((uint32_t)pin - (port * (uint32_t)PIC32_MAX_PORT_PIN));
-   
-   assert(pin < PIC32_MAX_PORT_PIN);
-
-   return pin;
-}
 int gpio_outfunc_map_set(int func_index, int value)
 {
   is_regindex_valid(func_index);
@@ -358,30 +234,34 @@ int gpio_outfunc_map_set(int func_index, int value)
   return OK;
 }
 
-void gpio_output_set(pic32_pin_t pin)
+void gpio_output_set(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
-
   BIT_CLR(gpio_tris[port], pin);
 }
 
-void gpio_input_set(pic32_pin_t pin)
+void gpio_input_set(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
 
   BIT_SET(gpio_tris[port], pin);
 }
 
-void gpio_state_write(pic32_pin_t pin, bool state)
+/* Pin acts as an open drain output */
+void gpio_open_drain_set(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
+  /* check if pin is output */
 
-  pin = getpinnumber(pin, port);
+  BIT_SET(gpio_odc[port], pin);
+}
 
+/* Pin acts as normal digital output */
+void gpio_open_drain_clear(uint8_t port, uint16_t pin)
+{
+
+  BIT_CLR(gpio_odc[port], pin);
+}
+
+void gpio_state_write(uint8_t port, uint16_t pin, bool state)
+{
   if (state)
     {
       BIT_SET(gpio_lat[port], pin);
@@ -392,69 +272,38 @@ void gpio_state_write(pic32_pin_t pin, bool state)
     }
 }
 
-void gpio_state_set(pic32_pin_t pin)
+void gpio_state_set(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
 
   BIT_SET(gpio_lat[port], pin);
 }
 
-void gpio_state_clear(pic32_pin_t pin)
+void gpio_state_clear(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
 
   BIT_CLR(gpio_lat[port], pin);
 }
 
-void gpio_state_toggle(pic32_pin_t pin)
+void gpio_state_toggle(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
 
   BIT_INV(gpio_lat[port], pin);
 }
 
-bool gpio_state_get(pic32_pin_t pin)
+bool gpio_state_get(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
 
   return !((*gpio_port[port] & (1 << pin)) == 0);
 }
 
-bool gpio_isinput(pic32_pin_t pin)
+bool gpio_isinput(uint8_t port, uint16_t pin)
 {
-  pic32_gpio_port_t port = getportnumber(pin);
-
-  pin = getpinnumber(pin, port);
-
   return !((*gpio_tris[port] & (1 << pin)) == 0);
 }
 
-bool gpio_isoutput(pic32_pin_t pin)
+bool gpio_isoutput(uint8_t port, uint16_t pin)
 {
-  return !gpio_isinput(pin);
-}
-
-int gpio_map_getindex(pic32_pin_t pin)
-{
-  int i;
-
-  for (i = 0; i < (int)GPIO_MAP_REG_MAX; i++)
-    {
-      if (pin == pin_map[i])
-        {
-          return i;
-        }
-
-    }
-  return INPUT_PIN_NC;
+  return !gpio_isinput(port, pin);
 }
 
 void gpio_init(void)
