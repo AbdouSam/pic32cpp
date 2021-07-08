@@ -13,14 +13,16 @@ TEST_GROUP(gpio_test)
 
   void teardown()
   {
-      mock("IO").checkExpectations();
+      mock("gpio").checkExpectations();
       mock().clear();
   }
 };
 
+using namespace pic32plus;
+
+
 TEST(gpio_test, set_pinA0_then_read)
 {
-  using namespace pic32plus;
 
   mock("gpio")
     .expectOneCall("gpio_output_set")
@@ -49,9 +51,8 @@ TEST(gpio_test, set_pinA0_then_read)
   CHECK_EQUAL(true, pin.read());
 }
 
-TEST(gpio_test, clear_pinA0_then_read)
+TEST(gpio_test, clear_pinD1_then_read)
 {
-  using namespace pic32plus;
 
   mock("gpio")
     .expectOneCall("gpio_output_set")
@@ -78,4 +79,33 @@ TEST(gpio_test, clear_pinA0_then_read)
     .withParameter("pin", 1);
 
   CHECK_EQUAL(false, pin.read());
+}
+
+TEST(gpio_test, toggle_pinE2_then_read)
+{
+    mock("gpio")
+    .expectOneCall("gpio_output_set")
+    .withParameter("port",(int)GPIO::PORTE)
+    .withParameter("pin", 2);
+
+  mock("gpio")
+    .expectOneCall("gpio_open_drain_clear")
+    .withParameter("port",(int)GPIO::PORTE)
+    .withParameter("pin", 2);
+
+  Gpio pin(GPIO::pinE2, GPIO::OUTPUT);
+
+  mock("gpio")
+    .expectOneCall("gpio_state_toggle")
+    .withParameter("port",(int)GPIO::PORTE)
+    .withParameter("pin", 2);
+
+  pin.toggle();
+
+  mock("gpio")
+    .expectOneCall("gpio_state_get")
+    .withParameter("port",(int)GPIO::PORTE)
+    .withParameter("pin", 2);
+
+  CHECK_EQUAL(true, pin.read());
 }
