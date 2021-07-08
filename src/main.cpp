@@ -1,6 +1,5 @@
 
 #include "pic32_config.h"
-#include "app.h"
 #include "sysclk.h"
 
 /* define CONFIG_CPU_USE_FRC to set  µC to run on internal clock
@@ -85,6 +84,9 @@
 
 #pragma config TSEQ =       0x0000
 #pragma config CSEQ =       0xffff
+
+int app_init();
+void app_task();
 
 int main(void)
 {
