@@ -23,6 +23,8 @@ CSRCS = \
 
 CPPSRCS = main.cpp \
 	  gpio_cpp.cpp \
+	  timer_cpp.cpp \
+	  uart_cpp.cpp \
 	  app_blink.cpp 
 
 SRC_C = $(addprefix $(SRC_DIR)/, $(CSRCS))
