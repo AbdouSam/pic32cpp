@@ -1,6 +1,5 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
-#include "CppUTestExt/MockSupport.h"
 
 #include "gpio.h"
 #include "gpio_cpp.h"
