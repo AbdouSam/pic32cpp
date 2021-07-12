@@ -1,6 +1,8 @@
 #ifndef INCLUDED_PIC32_INTERRUPT_H
 #define INCLUDED_PIC32_INTERRUPT_H
 
+#include <stdint.h>
+
 #define INT_PRIO_BITLEN (7U)
 #define INT_SUBP_BITLEN (3U)
 
